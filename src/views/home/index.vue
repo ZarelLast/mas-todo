@@ -39,7 +39,7 @@
       <div v-for="(project, index) in projectStore.projects"
         class="flex-1 flex flex-col flex-wrap gap-4 py-4 border shadow shadow-[#63636333]/20 rounded-3xl">
         <!-- title -->
-        <div class="flex-1 flex flex-col gap-2 px-4">
+        <div class="flex flex-col gap-2 px-4">
           <h2>{{ project.name }}</h2>
           <div class="w-full bg-gray-200 rounded-full h-2.5">
             <!-- <div class="bg-blue-600 h-2.5 rounded-full" :style="'width:'+(parseFloat(project.completed)/(parseFloat(project.completed) + parseFloat(project.incompleted)))*100+'%'"></div> -->
@@ -56,8 +56,7 @@
           <ul>
             <li v-for="(item, index) in project.todo">
               <label>
-                <input type="checkbox" @click="projectStore.updateCheckbox(project.id, item.id)" :checked="item.is_complete"> {{ item.description }}
-                {{item}}
+                <input type="checkbox" @click="checkboxUpdate(project.id, item.id, item.description, item.is_complete)" :checked="item.is_complete"> {{ item.description }}
               </label>
             </li>
           </ul>
@@ -73,17 +72,31 @@
 
 <script>
 import { useProjectStore } from '@/stores/project.store';
+import { useTodoStore } from '@/stores/todo.store';
 import img1 from '@/assets/noproject.svg'
 
 export default {
   data() {
     return {
       noproject: img1,
-      projectStore: useProjectStore()
+      projectStore: useProjectStore(),
+      todoStore: useTodoStore(),
     }
   },
   beforeMount() {
     this.projectStore.fetch()
+  },
+  methods:{
+    checkboxUpdate(projectId, todoId, desc, status){
+    // checkboxUpdate(projectId, todoId){
+      const formData = {
+        description: desc,
+        is_complete: !status
+      }
+      // this.projectStore.updateCheckbox(projectId, todoId, status)
+      this.projectStore.updateCheckbox(projectId, todoId)
+      this.todoStore.update(todoId, formData)
+    }
   }
 }
 

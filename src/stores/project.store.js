@@ -11,20 +11,32 @@ export const useProjectStore = defineStore({
   }),
   actions: {
 
+    sortLatest(){
+      this.projects.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+    },
+
     getProgress(id){
       const index = this.projects.findIndex(project => project.id == id)
-      return (parseFloat(this.projects[index].completed) / (parseFloat(this.projects[index].completed)+parseFloat(this.projects[index].incompleted)))*100
+      return (parseFloat(this.projects[index].completed) / parseFloat(this.getTotal(id)))*100
     },
 
     getTotal(id){
       const index = this.projects.findIndex(project => project.id == id)
-      return (parseInt(this.projects[index].completed)+parseInt(this.projects[index].incompleted))
+      return this.projects[index].todo.length
     },
 
+    updateProgress(id){
+      const index = this.projects.findIndex(project => project.id == id)
+      const total = this.projects[index].todo.filter(item => item.is_complete == true).length
+      this.projects[index].completed = total
+    },
+
+    // updateCheckbox(idProject, idCheckbox, status){
     updateCheckbox(idProject, idCheckbox){
       const indexProject = this.projects.findIndex(project => project.id == idProject)
-      const index = this.projects[indexProject].todo.findIndex(item => item.id == idCheckbox)
-      console.log(index)
+      const indexItem = this.projects[indexProject].todo.findIndex(item => item.id == idCheckbox)
+      this.projects[indexProject].todo[indexItem].is_complete = !this.projects[indexProject].todo[indexItem].is_complete
+      this.updateProgress(idProject)
     },
 
     async fetch() {
@@ -32,12 +44,13 @@ export const useProjectStore = defineStore({
       if (projects) {
         this.projects = projects.data
       }
-      // this.addPercent()
+      this.sortLatest()
     },
     
     async add(data) {
       const project = await axiosWrapper.post(`${baseUrl}/project`, data, true)
       this.project = project.data
+      this.sortLatest()
       return project
     },
 
