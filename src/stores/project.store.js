@@ -1,6 +1,8 @@
 import { defineStore } from "pinia";
 import { axiosWrapper } from "../helper/axios-wrapper";
 
+import router from '@/router/index.js'
+
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
 export const useProjectStore = defineStore({
@@ -10,7 +12,6 @@ export const useProjectStore = defineStore({
     project: null,
   }),
   actions: {
-
     sortLatest(){
       this.projects.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
     },
@@ -31,12 +32,31 @@ export const useProjectStore = defineStore({
       this.projects[index].completed = total
     },
 
-    // updateCheckbox(idProject, idCheckbox, status){
-    updateCheckbox(idProject, idCheckbox){
-      const indexProject = this.projects.findIndex(project => project.id == idProject)
+    setProject(id){
+      const index = this.projects.findIndex(project => project.id == id)
+      this.project = this.projects[index]
+      router.push('/project')
+    },
+
+    // updateCheckbox(projectId, idCheckbox, status){
+    updateCheckbox(projectId, idCheckbox){
+      const indexProject = this.projects.findIndex(project => project.id == projectId)
       const indexItem = this.projects[indexProject].todo.findIndex(item => item.id == idCheckbox)
       this.projects[indexProject].todo[indexItem].is_complete = !this.projects[indexProject].todo[indexItem].is_complete
-      this.updateProgress(idProject)
+      this.updateProgress(projectId)
+    },
+
+    getProject(projectId){
+      const indexProject = this.projects.findIndex(project => project.id == projectId)
+      return this.projects[indexProject].todo
+    },
+
+    getTodo(projectId, todoId){
+      const todos = this.getProject(projectId)
+      const index = todos.findIndex(todo => todo.id == todoId)
+      const description = todos[index].description
+      const is_complete = todos[index].is_complete
+      return {description, is_complete}
     },
 
     async fetch() {
@@ -50,7 +70,7 @@ export const useProjectStore = defineStore({
     async add(data) {
       const project = await axiosWrapper.post(`${baseUrl}/project`, data, true)
       this.project = project.data
-      this.sortLatest()
+      this.fetch()
       return project
     },
 

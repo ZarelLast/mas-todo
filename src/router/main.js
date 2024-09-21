@@ -1,4 +1,5 @@
 import HomeView from '@/views/home/index.vue'
+import ProjectView from '@/views/project/index.vue'
 import UserView from '@/views/user/index.vue'
 import UserCreateView from '@/views/user/create.vue'
 import UserUpdateView from '@/views/user/update.vue'
@@ -14,6 +15,16 @@ export default [{
     component: HomeView,
     meta: {
       title: 'Home',
+      layout: ExampleLayout,
+      middleware: [AuthMiddleware],
+    },
+  },
+  {
+    path: '/project',
+    name: 'project',
+    component: ProjectView,
+    meta: {
+      title: 'Project',
       layout: ExampleLayout,
       middleware: [AuthMiddleware],
     },

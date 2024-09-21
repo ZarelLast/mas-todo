@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col gap-2 p-5">
+  <div class="flex flex-col gap-2 p-5 h-screen">
     <Navbar />
     <slot />
   </div>

@@ -15,20 +15,28 @@ export const useTodoStore = defineStore({
     // async get(id) {
     //   console.log(id)
     //   const todos = await axiosWrapper.get(`${baseUrl}/todo/${id}`)
-    //   this.todos = todos
+    //   this.todos = todos.data
     //   return todos
     // },
 
+    // get dari project store
+    // get(data){
+    //   this.todos =
+    // }
+
+    // bug reload ilang
+
     // post
-    async add(data) {
-      const todo = await axiosWrapper.post(`${baseUrl}/todo`, data, true)
+    async add(projectId, val) {
+      // console.log(data)
+      const formData = {project_id: projectId, description: val}
+      const todo = await axiosWrapper.post(`${baseUrl}/todo`, formData, true)
       this.todo = todo.data
       return todo
     },
 
     // put
     async update(id, data) {
-      console.log(data)
       return await axiosWrapper.put(`${baseUrl}/todo/${id}`, data, true)
     },
 

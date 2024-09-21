@@ -1,14 +1,18 @@
 <template>
+  <!-- Modal -->
+  <Modal :title="modal.title" :label="modal.label" :placeholder="modal.placeholder" :onSubmit="modal.method"
+    :status.sync="modal.status" />
+
   <!-- no project -->
   <div v-if="!projectStore.projects.length"
-    class="flex items-center shadow shadow-{#F0F3FF} h-screen text-center align-middle">
+    class="flex-1 flex items-center shadow shadow-{#F0F3FF} h-screen text-center align-middle">
     <div class="flex-1 flex flex-col py-3 px-9 items-center gap-3">
       <h1 class="font-semibold text-lg">Belum ada project</h1>
       <div class="w-1/4">
         <img :src="noproject" alt="" srcset="">
       </div>
       <p>Saat ini anda belum menambahkan project, buat project terlebih dahulu</p>
-      <ButtonPrimary class="">
+      <ButtonPrimary @click="modalProject">
         Buat project
       </ButtonPrimary>
     </div>
@@ -19,7 +23,7 @@
     <!-- title -->
     <div class="flex-1 flex flex-row justify-between pt-6">
       <h1 class="font-bold text-2xl">Project</h1>
-      <ButtonPrimary>
+      <ButtonPrimary @click="modalProject">
         + Buat project baru
       </ButtonPrimary>
     </div>
@@ -34,7 +38,7 @@
     </div>
 
     <!-- container -->
-    <div class="flex-1 flex flex-wrap flex-row gap-3">
+    <div class="flex-1 flex flex-row gap-3 flex-wrap">
       <!-- card -->
       <div v-for="(project, index) in projectStore.projects"
         class="flex-1 flex flex-col flex-wrap gap-4 py-4 border shadow shadow-[#63636333]/20 rounded-3xl">
@@ -43,26 +47,29 @@
           <h2>{{ project.name }}</h2>
           <div class="w-full bg-gray-200 rounded-full h-2.5">
             <!-- <div class="bg-blue-600 h-2.5 rounded-full" :style="'width:'+(parseFloat(project.completed)/(parseFloat(project.completed) + parseFloat(project.incompleted)))*100+'%'"></div> -->
-            <div class="bg-blue-600 h-2.5 rounded-full" :style="'width:'+projectStore.getProgress(project.id)+'%'"></div>
+            <div class="bg-blue-600 h-2.5 rounded-full" :style="'width:' + projectStore.getProgress(project.id) + '%'">
+            </div>
           </div>
           <div class="flex flex-row justify-between">
             <span>belum selesai</span>
-            <span>{{parseInt(project.completed)}}/{{projectStore.getTotal(project.id)}} Selesai</span>
+            <span>{{ parseInt(project.completed) }}/{{ projectStore.getTotal(project.id) }} Selesai</span>
           </div>
         </div>
         <hr>
         <!-- list -->
         <div class="flex-1 flex flex-col gap-2 px-4">
           <ul>
-            <li v-for="(item, index) in project.todo">
+            <li v-for="(item, index) in project.todo" :class="{ 'line-through': item.is_complete }">
               <label>
-                <input type="checkbox" @click="checkboxUpdate(project.id, item.id, item.description, item.is_complete)" :checked="item.is_complete"> {{ item.description }}
+                <input class="" type="checkbox" @click="checkboxUpdate(project.id, item.id)"
+                  :checked="item.is_complete">
+                {{ item.description }}
               </label>
             </li>
           </ul>
         </div>
         <div class="shrink-0 flex px-4">
-          <ButtonPrimary class="flex-1 rounded-3xl">Lihat semua</ButtonPrimary>
+          <ButtonPrimary @click="toProjectDetails(project.id)" class="flex-1 rounded-3xl">Lihat semua</ButtonPrimary>
         </div>
       </div>
     </div>
@@ -81,21 +88,43 @@ export default {
       noproject: img1,
       projectStore: useProjectStore(),
       todoStore: useTodoStore(),
+      modal: {
+        title: '',
+        label: '',
+        placeholder: '',
+        status: false,
+        method: null
+      }
     }
   },
   beforeMount() {
     this.projectStore.fetch()
   },
-  methods:{
-    checkboxUpdate(projectId, todoId, desc, status){
-    // checkboxUpdate(projectId, todoId){
-      const formData = {
-        description: desc,
-        is_complete: !status
-      }
-      // this.projectStore.updateCheckbox(projectId, todoId, status)
+  computed: {
+    // this.projectStore.fetch()
+  },
+  methods: {
+    setModal(title, label, placeholder, method) {
+      this.modal.title = title
+      this.modal.label = label
+      this.modal.placeholder = placeholder
+      this.modal.status = !this.modal.status
+      this.modal.method = method
+    },
+    projectSubmit(val) {
+      this.projectStore.add({ name: val })
+    },
+    modalProject() {
+      this.setModal('Tambah project baru', 'Nama nama project', 'Masukan nama project', this.projectSubmit);
+    },
+    checkboxUpdate(projectId, todoId) {
       this.projectStore.updateCheckbox(projectId, todoId)
+      const formData = this.projectStore.getTodo(projectId, todoId)
       this.todoStore.update(todoId, formData)
+    },
+    toProjectDetails(projectId) {
+      this.projectStore.setProject(projectId)
+      this.todoStore.todos = this.projectStore.project.todo
     }
   }
 }
