@@ -1,6 +1,6 @@
 <template>
-  <Modal :title="modalValue.title" :label="modalValue.label" :placeholder="modalValue.placeholder"
-    :status.sync="showModal" :target="modalValue.target" />
+  <Modal :title="modal.title" :label="modal.label" :placeholder="modal.placeholder"
+    :status.sync="modal.status" :target="modal.target" />
   <div class="flex-1 flex flex-col gap-2 px-4">
     <div class="shrink-0 flex flex-row justify-between">
       <div class="flex flex-col">
@@ -59,7 +59,6 @@ export default {
     return {
       projectStore: useProjectStore(),
       todoStore: useTodoStore(),
-      showModal: false,
       modal: {
         title: '',
         label: '',
@@ -86,28 +85,27 @@ export default {
       this.modal.status = !this.modal.status
       this.modal.method = method
     },
-    openModalForTeam() {
-      this.setModal("Undang personil baru", "Email", "Masukkan email", this.handleTeamSubmission);
-    },
-    handleTeamSubmission(email, setError) {
-      // API call simulation
-      const validEmails = ["example@example.com"]; // Example list
-      if (!validEmails.includes(email)) {
-        setError("Personil yang anda input tidak terdaftar!");
-      } else {
-        // Add email to the API
-        console.log("Email valid, adding to team...");
-      }
-    },
+    // openModalForTeam() {
+    //   this.setModal("Undang personil baru", "Email", "Masukkan email", this.handleTeamSubmission);
+    // },
+    // handleTeamSubmission(email, setError) {
+    //   // API call simulation
+    //   const validEmails = ["example@example.com"]; // Example list
+    //   if (!validEmails.includes(email)) {
+    //     setError("Personil yang anda input tidak terdaftar!");
+    //   } else {
+    //     // Add email to the API
+    //     console.log("Email valid, adding to team...");
+    //   }
+    // },
     delTodo(id){
       this.todoStore.delete(id)
     },
-    addTodo() {
-      this.modal.title = 'Tambah to-do baru'
-      this.modal.label = 'Nama list'
-      this.modal.placeholder = 'Masukan nama'
-      this.modal.target = 'todo'
-      this.setModal()
+    modalTodo() {
+      this.setModal('Tambah to-do baru', 'Nama list', 'Masukan nama', this.todoSubmit)
+    },
+    todoSubmit(val) {
+      this.todoStore.add(val)
     },
     addPersonil() {
       this.modal.title = 'Undang personil baru'

@@ -38,10 +38,10 @@
     </div>
 
     <!-- container -->
-    <div class="flex-1 flex flex-row gap-3 flex-wrap">
+    <div class="flex-1 grid grid-flow-row grid-cols-1 md:grid-cols-3 gap-3">
       <!-- card -->
-      <div v-for="(project, index) in projectStore.projects"
-        class="flex-1 flex flex-col flex-wrap gap-4 py-4 border shadow shadow-[#63636333]/20 rounded-3xl">
+      <div v-for="(project, index) in projectStore.paginatedProjects()"
+        class="flex flex-col flex-wrap gap-4 py-4 border shadow shadow-[#63636333]/20 rounded-3xl">
         <!-- title -->
         <div class="flex flex-col gap-2 px-4">
           <h2>{{ project.name }}</h2>
@@ -72,6 +72,18 @@
           <ButtonPrimary @click="toProjectDetails(project.id)" class="flex-1 rounded-3xl">Lihat semua</ButtonPrimary>
         </div>
       </div>
+    </div>
+
+    <div class="flex-1 flex justify-end">
+      <ul class="flex flex-row border-2 border-blue-500 divide-x-2 divide-blue-500 rounded-xl shadow">
+        <button @click="projectStore.currentPage--" :disabled="projectStore.currentPage <= 1"
+          class="px-3 py-2 hover:bg-blue-100">prev</button>
+        <li v-for="index in projectStore.totalPages()" @click="projectStore.currentPage = index"
+          :class="{ 'bg-blue-300': index == projectStore.currentPage, 'hover:bg-blue-100': index != projectStore.currentPage }"
+          class="px-3 py-2 ">{{ index }}</li>
+        <button @click="projectStore.currentPage++" :disabled="projectStore.currentPage >= projectStore.totalPages()"
+          class="px-3 py-2 hover:bg-blue-100">next</button>
+      </ul>
     </div>
   </div>
 
