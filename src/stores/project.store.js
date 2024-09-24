@@ -11,7 +11,9 @@ export const useProjectStore = defineStore({
     projects: [],
     project: null,
     currentPage: 1,
-    limitShow: 6
+    limitShow: 6,
+    completed: false
+    // limit todo jadi 3
   }),
   actions: {
     async fetch() {
@@ -45,7 +47,13 @@ export const useProjectStore = defineStore({
 
     paginatedProjects() {
       const start = (this.currentPage - 1) * this.limitShow;
-      return this.projects.slice(start, start + this.limitShow);
+      let data = []
+      if(this.completed){
+        data = this.projects.filter(project => project.incompleted == 0 && project.completed > project.incompleted )
+      }else{
+        data = this.projects
+      }
+      return data.slice(start, start + this.limitShow);
     },
 
     getProgress(id) {
@@ -60,14 +68,16 @@ export const useProjectStore = defineStore({
 
     updateProgress(id) {
       const index = this.projects.findIndex(project => project.id == id)
-      const total = this.projects[index].todo.filter(item => item.is_complete == true).length
-      this.projects[index].completed = total
+      const completed = this.projects[index].todo.filter(item => item.is_complete == true).length
+      const incompleted = this.projects[index].todo.filter(item => item.is_complete == false).length
+      this.projects[index].completed = completed
+      this.projects[index].incompleted = incompleted
     },
 
     setProject(id) {
       const index = this.projects.findIndex(project => project.id == id)
       this.project = this.projects[index]
-      router.push('/project')
+      router.push('/project/todo')
     },
 
     // updateCheckbox(projectId, idCheckbox, status){

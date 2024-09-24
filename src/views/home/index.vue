@@ -3,6 +3,7 @@
   <Modal :title="modal.title" :label="modal.label" :placeholder="modal.placeholder" :onSubmit="modal.method"
     :status.sync="modal.status" />
 
+  <!-- {{ console.log(projectStore.projects) }} -->
   <!-- no project -->
   <div v-if="!projectStore.projects.length"
     class="flex-1 flex items-center shadow shadow-{#F0F3FF} h-screen text-center align-middle">
@@ -29,10 +30,11 @@
     </div>
 
     <div class="flex-1 flex flex-row gap-2">
-      <ButtonMinimal intent="active">
+      <!-- <ButtonMinimal :intent="{'active':projectStore.completed, 'disabled':!projectStore.completed}" @click="projectStore.completed=false"> -->
+      <ButtonMinimal :intent="projectStore.completed ? 'disabled':'active'" @click="projectStore.completed=false">
         Semua
       </ButtonMinimal>
-      <ButtonMinimal intent="disabled">
+      <ButtonMinimal :intent="projectStore.completed ? 'active':'disabled'" @click="projectStore.completed=true">
         Terselesaikan
       </ButtonMinimal>
     </div>
@@ -51,15 +53,22 @@
             </div>
           </div>
           <div class="flex flex-row justify-between">
-            <span>belum selesai</span>
-            <span>{{ parseInt(project.completed) }}/{{ projectStore.getTotal(project.id) }} Selesai</span>
+            <div class="flex-1 flex flex-row items-center gap-1">
+              <span id="dot" class="h-2 w-2 rounded-full"
+                :class="{ 'bg-A-600': project.incompleted > 0, 'bg-S-600': project.incompleted == 0 }"></span>
+              <span class="font-medium text-A-600" :class="{ 'hidden': project.incompleted == 0 }">Belum selesai</span>
+              <span class="font-medium text-S-600" :class="{ 'hidden': project.incompleted > 0 }">Selesai</span>
+            </div>
+            <div class="">
+              <span>{{ parseInt(project.completed) }}/{{ projectStore.getTotal(project.id) }}</span> Selesai
+            </div>
           </div>
         </div>
-        <hr>
         <!-- list -->
+        <span class="border-t-2"></span>
         <div class="flex-1 flex flex-col gap-2 px-4">
           <ul>
-            <li v-for="(item, index) in project.todo" :class="{ 'line-through': item.is_complete }">
+            <li v-for="(item, index) in project.todo.slice(0, 3)" :class="{ 'line-through': item.is_complete }">
               <label>
                 <input class="" type="checkbox" @click="checkboxUpdate(project.id, item.id)"
                   :checked="item.is_complete">
@@ -74,16 +83,38 @@
       </div>
     </div>
 
-    <div class="flex-1 flex justify-end">
-      <ul class="flex flex-row border-2 border-blue-500 divide-x-2 divide-blue-500 rounded-xl shadow">
-        <button @click="projectStore.currentPage--" :disabled="projectStore.currentPage <= 1"
-          class="px-3 py-2 hover:bg-blue-100">prev</button>
-        <li v-for="index in projectStore.totalPages()" @click="projectStore.currentPage = index"
-          :class="{ 'bg-blue-300': index == projectStore.currentPage, 'hover:bg-blue-100': index != projectStore.currentPage }"
-          class="px-3 py-2 ">{{ index }}</li>
-        <button @click="projectStore.currentPage++" :disabled="projectStore.currentPage >= projectStore.totalPages()"
-          class="px-3 py-2 hover:bg-blue-100">next</button>
-      </ul>
+    <div class="flex-1 flex justify-between">
+      <div class="shrink-0">
+        <p class="">
+          Menampilkan
+          <Span>{{ ((projectStore.currentPage - 1) * projectStore.limitShow) + 1 }}</Span>
+          sampai
+          <span>{{ projectStore.currentPage * projectStore.limitShow }}</span>
+          dari
+          <span>{{ projectStore.projects.length }}</span>
+          keseluruhan
+        </p>
+      </div>
+      <div class="shrink-0">
+        <ul class="flex flex-row gap-2 rounded-xl">
+          <li>
+            <button @click="projectStore.currentPage--" class="rounded-md px-4 py-2 font-semibold"
+              :class="{'bg-Text-200 text-Text-400': projectStore.currentPage == 1, 'bg-brand-normal text-Text-100': projectStore.currentPage > 1}"
+              :disabled="projectStore.currentPage <= 1">Prev</button>
+          </li>
+          <li v-for="index in projectStore.totalPages()">
+            <button @click="projectStore.currentPage = index" class="rounded-md px-4 py-2 font-semibold"
+              :class="{ 'bg-brand-normal text-Text-100': index == projectStore.currentPage, 'bg-Text-200 text-Text-400': index != projectStore.currentPage }">
+              {{ index }}
+            </button>
+          </li>
+          <li>
+            <button @click="projectStore.currentPage++" class="rounded-md px-4 py-2 font-semibold"
+              :class="{'bg-Text-200 text-Text-400': projectStore.currentPage == projectStore.totalPages(), 'bg-brand-normal text-Text-100': projectStore.currentPage < projectStore.totalPages()}"
+              :disabled="projectStore.currentPage >= projectStore.totalPages()">Next</button>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 
@@ -113,7 +144,7 @@ export default {
     this.projectStore.fetch()
   },
   computed: {
-    // this.projectStore.fetch()
+
   },
   methods: {
     setModal(title, label, placeholder, method) {
@@ -123,7 +154,8 @@ export default {
       this.modal.status = !this.modal.status
       this.modal.method = method
     },
-    projectSubmit(val) {
+    projectSubmit(val, setError) {
+      setError()
       this.projectStore.add({ name: val })
     },
     modalProject() {

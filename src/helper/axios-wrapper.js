@@ -56,6 +56,7 @@ function authHeader(url) {
   } else {
     return {};
   }
+
 }
 
 function errorHandler(error) {
@@ -90,7 +91,7 @@ function errorHandler(error) {
     position: toast.POSITION.BOTTOM_RIGHT,
   });
 
-  return false;
+  return response.data;
 }
 
 

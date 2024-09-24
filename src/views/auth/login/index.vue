@@ -29,7 +29,7 @@
                 <div class="absolute left-0 ml-3">
                   <i class="ri-lock-line w-5 h-5" />
                 </div>
-                <input v-model="formData.password" type="password" id="password"
+                <input v-model="formData.password" :type="passwordFieldType" id="password"
                   class="bg-gray-50 border border-gray-300 px-10 text-gray-900 text-sm rounded-lg focus-within:ring-blue-500 focus-within:outline-blue-500 block w-full p-2.5"
                   placeholder="Masukan password..." required>
                 <div class="absolute right-0 mr-3" @click="togglePass">
@@ -83,6 +83,11 @@ export default {
     },
     login() {
       this.authStore.login(this.formData)
+    }
+  },
+  computed:{
+    passwordFieldType(){
+      return this.showPass ? 'text' : 'password'
     }
   }
 }

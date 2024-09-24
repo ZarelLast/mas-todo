@@ -10,7 +10,6 @@ export const useTeamStore = defineStore({
     team: null
   }),
   actions: {
-
     // searchMember(val){
     //   return this.teams.filter((member)=> member.includes(val))
     // },
@@ -22,16 +21,21 @@ export const useTeamStore = defineStore({
     },
 
     // add
-    async add(projectId, val) {
-      const formData = {project_id: projectId, email: val}
-      const todo = await axiosWrapper.post(`${baseUrl}/team`, formData, true)
-      this.todo = todo.data
-      return todo
+    async add(data) {
+      // const formData = {project_id: projectId, email: email}
+      const team = await axiosWrapper.post(`${baseUrl}/team`, data, true)
+      this.team = team.data
+      // console.log('status',team.status)
+      return team
+      // false/true
+      // sudah ada =false
+      // email tidak ada = false
+      // joined = true
     },
 
     // delete
-    async delete(id){
-      return await axiosWrapper.delete(`${baseUrl}/team/${id}`, {}, true)
+    async delete(projectId){
+      return await axiosWrapper.delete(`${baseUrl}/team/${projectId}`, {}, true)
     }
   }
 })

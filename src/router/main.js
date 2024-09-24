@@ -1,5 +1,6 @@
 import HomeView from '@/views/home/index.vue'
-import ProjectView from '@/views/project/index.vue'
+import ProjectTodoView from '@/views/project/index.vue'
+import ProjectTeamView from '@/views/team/index.vue'
 import UserView from '@/views/user/index.vue'
 import UserCreateView from '@/views/user/create.vue'
 import UserUpdateView from '@/views/user/update.vue'
@@ -20,11 +21,21 @@ export default [{
     },
   },
   {
-    path: '/project',
-    name: 'project',
-    component: ProjectView,
+    path: '/project/todo',
+    name: 'project-todo',
+    component: ProjectTodoView,
     meta: {
-      title: 'Project',
+      title: 'Project Todo',
+      layout: ExampleLayout,
+      middleware: [AuthMiddleware],
+    },
+  },
+  {
+    path: '/project/team',
+    name: 'project-team',
+    component: ProjectTeamView,
+    meta: {
+      title: 'Project Team',
       layout: ExampleLayout,
       middleware: [AuthMiddleware],
     },

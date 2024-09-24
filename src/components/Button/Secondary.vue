@@ -1,5 +1,5 @@
 <template>
-  <button class="border-2 border-blue-400 p-2 rounded-md text-blue-400 hover:text-blue-500 hover:border-blue-500" :type="type">
+  <button :class="buttonClass" :type="type">
     <slot/>
   </button>
 </template>
@@ -11,6 +11,21 @@ export default {
       type: String,
       default: 'button',
     },
+    intent:{
+      type: String,
+      default: 'primary'
+    }
+  },
+  computed:{
+    buttonClass(){
+      const baseClasses = 'border-2 p-2 rounded-md hover:text-blue-500 hover:border-blue-500'
+      const variantClasses = {
+        primary: 'border-blue-400 text-blue-400',
+        active: 'border-blue-400 text-blue-400',
+        disabled: 'border-light text-light'
+      }
+      return `${baseClasses} ${variantClasses[this.intent]}`
+    }
   }
 }
 </script>

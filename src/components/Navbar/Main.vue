@@ -16,11 +16,12 @@
 import logoSvg from '@/assets/logo2.svg'
 import { useUserStore } from '@/stores/user.store';
 import { useAuthStore } from '../../stores/auth.store';
-
+const image = new Image()
+image.src = logoSvg
 export default {
   data() {
     return {
-      logo: logoSvg,
+      logo: image.src,
       userStore: useUserStore(),
       authStore: useAuthStore()
     }

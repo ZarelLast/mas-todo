@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col gap-2 p-5 h-screen">
-    <Navbar />
+    <NavbarMain />
     <slot />
   </div>
 </template>

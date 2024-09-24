@@ -22,7 +22,7 @@ export default {
       const variantClasses = {
         primary: 'border-white bg-white text-blue-500',
         active: 'border-blue-100 bg-blue-100 text-blue-500',
-        disabled: 'border-white bg-white text-grey-500',
+        disabled: 'border-white bg-white text-grey',
       }
       return `${baseClasses} ${variantClasses[this.intent]}`
     }

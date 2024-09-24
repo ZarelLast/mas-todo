@@ -11,14 +11,16 @@
       <form class="space-y-6" action="" @submit.prevent="submitData">
         <div>
           <label for="listName" class="block text-sm font-medium text-gray-700">{{ label }}</label>
-          <input id="listName" type="text" v-model="inputVal" :placeholder="placeholder"
+          <input id="listName" :type="type" v-model="inputVal" :placeholder="placeholder"
             class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
-          <p v-if="errorMessage" class="mt-2 text-sm text-red-600">{{ errorMessage }}</p>
         </div>
         <button type="submit"
           class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
           Tambahkan
         </button>
+        <div v-if="errorMessage" class="border rounded-2xl py-6 px-5 border-W-500 bg-W-100">
+          <p class="text-sm text-red-600">{{ errorMessage }}</p>
+        </div>
       </form>
     </div>
   </div>
@@ -26,21 +28,26 @@
 
 <script>
 import { useProjectStore } from '@/stores/project.store';
-import { useTodoStore } from '../../stores/todo.store';
+import { useTodoStore } from '@/stores/todo.store';
 export default {
   props: {
     title: String,
     label: String,
     placeholder: String,
     status: Boolean,
-    onSubmit: Function
+    onSubmit: Function,
+    type: {
+      type: String,
+      default: 'text',
+    },
   },
   data() {
     return {
       projectStore: useProjectStore(),
       todoStore: useTodoStore(),
       inputVal: '',
-      errorMessage: ''
+      errorMessage: '',
+      errorStatus: false
     }
   },
   computed: {
@@ -53,20 +60,21 @@ export default {
       this.$parent.modal.status = false;
       this.inputVal = ''
       this.errorMessage = ''
+      this.errorStatus = false
     },
-    setError(message) {
+
+    setError(message='', status=false) {
       this.errorMessage = message;
+      console.log('status setError',status)
+      this.errorStatus = status
+
+      if(this.errorStatus == false){
+        this.closeModal()
+      }
     },
+
     submitData() {
-      // if (this.target == 'todo'){
-      //   this.todoStore.add(this.projectStore.project.id, this.inputVal)
-      // }else if (this.target == 'personil'){
-      //   this.projectStore.add({name: this.inputVal})
-      // }else{
-      //   this.projectStore.add({name: this.inputVal})
-      // }
       this.onSubmit(this.inputVal, this.setError)
-      this.closeModal()
     }
   }
 }
