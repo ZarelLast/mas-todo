@@ -123,6 +123,7 @@
 <script>
 import { useProjectStore } from '@/stores/project.store';
 import { useTodoStore } from '@/stores/todo.store';
+import { useModalStore } from '../../stores/modal.store';
 import img1 from '@/assets/noproject.svg'
 
 export default {
@@ -131,13 +132,14 @@ export default {
       noproject: img1,
       projectStore: useProjectStore(),
       todoStore: useTodoStore(),
-      modal: {
-        title: '',
-        label: '',
-        placeholder: '',
-        status: false,
-        method: null
-      }
+      modalStore: useModalStore(),
+      // modal: {
+      //   title: '',
+      //   label: '',
+      //   placeholder: '',
+      //   status: false,
+      //   method: null
+      // }
     }
   },
   beforeMount() {
@@ -147,19 +149,19 @@ export default {
 
   },
   methods: {
-    setModal(title, label, placeholder, method) {
-      this.modal.title = title
-      this.modal.label = label
-      this.modal.placeholder = placeholder
-      this.modal.status = !this.modal.status
-      this.modal.method = method
-    },
+    // setModal(title, label, placeholder, method) {
+    //   this.modal.title = title
+    //   this.modal.label = label
+    //   this.modal.placeholder = placeholder
+    //   this.modal.status = !this.modal.status
+    //   this.modal.method = method
+    // },
     projectSubmit(val, setError) {
       setError()
       this.projectStore.add({ name: val })
     },
     modalProject() {
-      this.setModal('Tambah project baru', 'Nama nama project', 'Masukan nama project', this.projectSubmit);
+      this.modalStore.setModal('Tambah project baru', 'Nama nama project', 'Masukan nama project', this.projectSubmit);
     },
     checkboxUpdate(projectId, todoId) {
       this.projectStore.updateCheckbox(projectId, todoId)

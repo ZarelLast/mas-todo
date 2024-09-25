@@ -140,7 +140,21 @@ export default {
       this.setModal('Undang personil baru', 'Email', 'Masukan email', this.teamSubmit, 'email')
     },
     leaveProject() {
-      this.teamStore.delete(this.projectStore.project.id)
+      const swalStyle = this.$swal.mixin({
+        customClass: {
+          confirmButton:'border-W-600 bg-W-600 text-Text-100',
+          cancelButton:'border-W-600 bg-white text-W-600',
+        }
+      })
+      swalStyle.fire({
+        title:"Keluar dari Project Jenjang.id?",
+        text:"Apa anda yakin ingin keluar dari project ini?",
+        showCancelButton: true,
+        confirmButtonText: "halo",
+        cancleButtonText: "hi",
+        reverseButtons: true
+      })
+      // this.teamStore.delete(this.projectStore.project.id)
     },
     checkboxUpdate(projectId, todoId) {
       this.projectStore.updateCheckbox(projectId, todoId)
@@ -158,7 +172,6 @@ export default {
         hour12: false // 24-hour format
       });
       return formattedDate.replace(',', '').replace(':', '.');
-
     }
   }
 }
