@@ -111,18 +111,7 @@ export default {
     },
     leaveProject() {
       this.teamStore.deleteAlert(this.projectStore.project.id, this.$swal, this.toHome)
-    },
-    checkboxUpdate(projectId, todoId) {
-      this.projectStore.updateCheckbox(projectId, todoId)
-      const formData = this.projectStore.getTodo(projectId, todoId)
-      this.todoStore.update(todoId, formData)
-    },
+    }
   }
 };
 </script>
-<!-- 
-<style>
-  .link{
-    @apply px-2 cursor-pointer hover:text-red-400;
-  }
-</style> -->

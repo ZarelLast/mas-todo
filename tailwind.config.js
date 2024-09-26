@@ -15,6 +15,22 @@ module.exports = {
             fontFamily: {
                 poppins: ['Poppins', 'sans-serif'],
             },
+            fontSize: {
+                'Heading-1': ['40px', '48px'],
+                'Heading-2': ['32px', '38.4px'],
+                'Title-1': ['26px', '31.2px'],
+                'Title-2': ['20px', '24px'],
+                'Body-1': ['16px', '19.2px'],
+                'Body-2': ['13px', '15.6px'],
+                'Body-3': ['10px', '12px'],
+                'Body-4': ['8px', '9.6px']
+            },
+            fontWeight: {
+                Reguler: 400,
+                Medium: 500,
+                Semibold: 600,
+                Bold: 700
+            },
             colors: {
                 brand: {
                     light: '#e6f2ff',

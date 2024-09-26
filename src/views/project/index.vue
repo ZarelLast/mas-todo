@@ -36,8 +36,8 @@ export default {
       todoStore: useTodoStore(),
     }
   },
-  computed:{
-    fetchTodos(){
+  computed: {
+    fetchTodos() {
       this.projectStore.fetch()
       this.projectStore.setProject(this.projectStore.project.id)
       this.todoStore.todos = this.projectStore.project.todo
@@ -56,7 +56,12 @@ export default {
         hour12: false
       });
       return formattedDate.replace(',', '').replace(':', '.');
-    }
+    },
+    checkboxUpdate(projectId, todoId) {
+      this.projectStore.updateCheckbox(projectId, todoId)
+      const formData = this.projectStore.getTodo(projectId, todoId)
+      this.todoStore.update(todoId, formData)
+    },
   }
 }
 </script>
