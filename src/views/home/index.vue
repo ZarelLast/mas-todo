@@ -30,10 +30,10 @@
 
     <div class="flex-1 flex flex-row gap-2">
       <!-- <ButtonMinimal :intent="{'active':projectStore.completed, 'disabled':!projectStore.completed}" @click="projectStore.completed=false"> -->
-      <ButtonMinimal :intent="projectStore.completed ? 'disabled':'active'" @click="projectStore.completed=false">
+      <ButtonMinimal :intent="projectStore.completed ? 'disabled' : 'active'" @click="projectStore.completed = false">
         Semua
       </ButtonMinimal>
-      <ButtonMinimal :intent="projectStore.completed ? 'active':'disabled'" @click="projectStore.completed=true">
+      <ButtonMinimal :intent="projectStore.completed ? 'active' : 'disabled'" @click="projectStore.completed = true">
         Terselesaikan
       </ButtonMinimal>
     </div>
@@ -41,7 +41,7 @@
     <!-- container -->
     <div class="flex-1 grid grid-flow-row grid-cols-1 md:grid-cols-3 gap-3">
       <!-- card -->
-      <div v-for="(project, index) in projectStore.paginatedProjects()"
+      <div v-for="(project, index) in fetchProject"
         class="flex flex-col flex-wrap gap-4 py-4 border shadow shadow-[#63636333]/20 rounded-3xl">
         <!-- title -->
         <div class="flex flex-col gap-2 px-4">
@@ -86,7 +86,7 @@
       <div class="shrink-0">
         <p class="">
           Menampilkan
-          <Span>{{ ((projectStore.currentPage - 1) * projectStore.limitShow) + 1 }}</Span>
+          <span>{{ ((projectStore.currentPage - 1) * projectStore.limitShow) + 1 }}</span>
           sampai
           <span>{{ projectStore.currentPage * projectStore.limitShow }}</span>
           dari
@@ -98,7 +98,7 @@
         <ul class="flex flex-row gap-2 rounded-xl">
           <li>
             <button @click="projectStore.currentPage--" class="rounded-md px-4 py-2 font-semibold"
-              :class="{'bg-Text-200 text-Text-400': projectStore.currentPage == 1, 'bg-brand-normal text-Text-100': projectStore.currentPage > 1}"
+              :class="{ 'bg-Text-200 text-Text-400': projectStore.currentPage == 1, 'bg-brand-normal text-Text-100': projectStore.currentPage > 1 }"
               :disabled="projectStore.currentPage <= 1">Prev</button>
           </li>
           <li v-for="index in projectStore.totalPages()">
@@ -109,7 +109,7 @@
           </li>
           <li>
             <button @click="projectStore.currentPage++" class="rounded-md px-4 py-2 font-semibold"
-              :class="{'bg-Text-200 text-Text-400': projectStore.currentPage == projectStore.totalPages(), 'bg-brand-normal text-Text-100': projectStore.currentPage < projectStore.totalPages()}"
+              :class="{ 'bg-Text-200 text-Text-400': projectStore.currentPage == projectStore.totalPages(), 'bg-brand-normal text-Text-100': projectStore.currentPage < projectStore.totalPages() }"
               :disabled="projectStore.currentPage >= projectStore.totalPages()">Next</button>
           </li>
         </ul>
@@ -138,7 +138,9 @@ export default {
     this.projectStore.fetch()
   },
   computed: {
-    // 
+    fetchProject() {
+      return this.projectStore.paginatedProjects()
+    }
   },
   methods: {
     projectSubmit(val, setError) {
@@ -155,7 +157,7 @@ export default {
     },
     toProjectDetails(projectId) {
       this.projectStore.setProject(projectId)
-      this.todoStore.todos = this.projectStore.project.todo
+      this.$router.push('/project/todo')
     }
   }
 }

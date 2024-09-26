@@ -35,13 +35,5 @@ export default {
       modalStore: useModalStore(),
     }
   },
-  computed: {
-    // searchMember(val){
-    //   return this.teams.filter((member)=> member.includes(val))
-    // },
-  },
-  methods: {
-    
-  }
 }
 </script>

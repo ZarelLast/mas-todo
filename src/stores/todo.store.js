@@ -25,22 +25,16 @@ export const useTodoStore = defineStore({
     // }
 
     // bug reload ilang
-
-    // post
     async add(data) {
-      // console.log(data)
-      // const formData = {project_id: projectId, description: val}
       const todo = await axiosWrapper.post(`${baseUrl}/todo`, data, true)
       this.todo = todo.data
       return todo
     },
 
-    // put
     async update(id, data) {
       return await axiosWrapper.put(`${baseUrl}/todo/${id}`, data, true)
     },
 
-    // delete
     async delete(id){
       return await axiosWrapper.delete(`${baseUrl}/todo/${id}`, {}, true)
     }

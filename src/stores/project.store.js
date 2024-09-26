@@ -77,7 +77,6 @@ export const useProjectStore = defineStore({
     setProject(id) {
       const index = this.projects.findIndex(project => project.id == id)
       this.project = this.projects[index]
-      router.push('/project/todo')
     },
 
     // updateCheckbox(projectId, idCheckbox, status){

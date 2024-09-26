@@ -6,7 +6,7 @@ import UserCreateView from '@/views/user/create.vue'
 import UserUpdateView from '@/views/user/update.vue'
 
 import ExampleLayout from '@/layouts/ExampleLayout.vue';
-
+import DetailsLayout from '../layouts/DetailsLayout.vue'
 // middleware
 import AuthMiddleware from '@/middleware/auth.middleware.js';
 
@@ -26,7 +26,7 @@ export default [{
     component: ProjectTodoView,
     meta: {
       title: 'Project Todo',
-      layout: ExampleLayout,
+      layout: DetailsLayout,
       middleware: [AuthMiddleware],
     },
   },
@@ -36,7 +36,7 @@ export default [{
     component: ProjectTeamView,
     meta: {
       title: 'Project Team',
-      layout: ExampleLayout,
+      layout: DetailsLayout,
       middleware: [AuthMiddleware],
     },
   },
