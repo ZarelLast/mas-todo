@@ -1,12 +1,11 @@
 <template>
-  <Modal :title="modal.title" :label="modal.label" :placeholder="modal.placeholder" :onSubmit="modal.method"
-    :status.sync="modal.status" :type="modal.type" />
+  <Modal />
   <div class="flex-1 flex flex-col gap-2 px-4">
     <!-- secondary -->
     <div class="shrink-0 flex flex-row justify-between">
       <!-- title -->
       <div class="flex flex-col">
-        <div class="text-sm" @click="backHome">
+        <div class="text-sm" @click="toHome">
           <i class="ri-arrow-left-s-line" />
           <span>kembali</span>
         </div>
@@ -62,6 +61,7 @@
 import { useProjectStore } from '@/stores/project.store';
 import { useTodoStore } from '@/stores/todo.store';
 import { useTeamStore } from '@/stores/team.store';
+import { useModalStore } from '../../stores/modal.store';
 import router from '@/router/index.js'
 
 export default {
@@ -70,72 +70,58 @@ export default {
       projectStore: useProjectStore(),
       todoStore: useTodoStore(),
       teamStore: useTeamStore(),
-      modal: {
-        title: '',
-        label: '',
-        placeholder: '',
-        status: false,
-        method: null,
-        defaultInput: ''
-      }
+      modalStore: useModalStore()
     }
   },
   beforeMount() {
-    // 
+    this.teamStore.get(this.projectStore.project.id)
   },
   methods: {
-    backHome() {
+    toHome() {
       router.push('/')
-    },
-    // getTodos(){
-
-    // }
-    setModal(title, label, placeholder, method, type = 'text', defaultInput = '') {
-      this.modal.title = title
-      this.modal.label = label
-      this.modal.placeholder = placeholder
-      this.modal.status = !this.modal.status
-      this.modal.method = method
-      this.modal.type = type
-      this.modal.defaultInput = defaultInput
     },
     todoSubmit(val, setError) {
       this.todoStore.add({ project_id: this.projectStore.project.id, description: val })
       setError()
     },
-    todoUpdate(val) {
+    todoUpdate(val, setError) {
       this.todoStore.update(this.todoStore.todo.id, val)
+      setError()
     },
     modalTodo() {
-      this.setModal('Tambah to-do baru', 'Nama list', 'Masukan nama', this.todoSubmit)
+      this.modalStore.setModal('Tambah to-do baru', 'Nama list', 'Masukan nama', this.todoSubmit)
     },
-    updateTodo(data) {
+    updateTodo(data, setError) {
       this.todoStore.todo = data
-      this.setModal('Edit to-do', 'Nama list', 'Masukan nama', this.todoUpdate)
+      this.modalStore.setModal('Edit to-do', 'Nama list', 'Masukan nama', this.todoUpdate)
+      setError()
     },
     delTodo(id) {
       this.todoStore.delete(id)
     },
     teamSubmit(val, setError) {
-      const response = this.teamStore.add({ project_id: this.projectStore.project.id, email: val })
+      const res = this.teamStore.add({ project_id: this.projectStore.project.id, email: val })
 
       // minus jika sudah join maka tetep keluar ini
-      response.then((res) => {
+      res.then((response) => {
         let message = ''
         let status = false
-        if (res.status == 404) {
+        if (response.status == 404) {
           message = "Personil yang anda input tidak terdaftar!"
           status = true
         }
-        console.log(status, res.status)
+        if (response.status == 400) {
+          message = "Personil yang anda input sudah terdaftar!"
+          status = true
+        }
         setError(message, status);
       })
     },
     modalTeam() {
-      this.setModal('Undang personil baru', 'Email', 'Masukan email', this.teamSubmit, 'email')
+      this.modalStore.setModal('Undang personil baru', 'Email', 'Masukan email', this.teamSubmit, 'email')
     },
     leaveProject() {
-      this.teamStore.delete(this.projectStore.project.id)
+      this.teamStore.deleteAlert(this.projectStore.project.id, this.$swal, this.toHome)
     },
     checkboxUpdate(projectId, todoId) {
       this.projectStore.updateCheckbox(projectId, todoId)
@@ -150,10 +136,9 @@ export default {
         year: 'numeric',
         hour: '2-digit',
         minute: '2-digit',
-        hour12: false // 24-hour format
+        hour12: false
       });
       return formattedDate.replace(',', '').replace(':', '.');
-
     }
   }
 }

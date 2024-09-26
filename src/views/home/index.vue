@@ -1,7 +1,6 @@
 <template>
   <!-- Modal -->
-  <Modal :title="modal.title" :label="modal.label" :placeholder="modal.placeholder" :onSubmit="modal.method"
-    :status.sync="modal.status" />
+  <Modal />
 
   <!-- {{ console.log(projectStore.projects) }} -->
   <!-- no project -->
@@ -133,29 +132,15 @@ export default {
       projectStore: useProjectStore(),
       todoStore: useTodoStore(),
       modalStore: useModalStore(),
-      // modal: {
-      //   title: '',
-      //   label: '',
-      //   placeholder: '',
-      //   status: false,
-      //   method: null
-      // }
     }
   },
   beforeMount() {
     this.projectStore.fetch()
   },
   computed: {
-
+    // 
   },
   methods: {
-    // setModal(title, label, placeholder, method) {
-    //   this.modal.title = title
-    //   this.modal.label = label
-    //   this.modal.placeholder = placeholder
-    //   this.modal.status = !this.modal.status
-    //   this.modal.method = method
-    // },
     projectSubmit(val, setError) {
       setError()
       this.projectStore.add({ name: val })

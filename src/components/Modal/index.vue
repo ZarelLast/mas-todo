@@ -3,7 +3,7 @@
     class="bg-black bg-opacity-70 fixed inset-0 flex items-center justify-end px-4" @click.self="modalStore.closeModal">
     <div class="bg-white p-6 rounded-lg max-w-sm w-full h-[97.5vh]" @click.stop>
       <div class="flex justify-between items-center mb-4">
-        <h2 class="text-xl font-semibold">{{ title }}</h2>
+        <h2 class="text-xl font-semibold">{{ modalStore.title }}</h2>
         <button @click="modalStore.closeModal" class="text-xl font-bold hover:text-red-600">
           <i class="ri-close-line" />
         </button>
