@@ -80,7 +80,7 @@ export default {
       return this.checkPass === this.formData.password
     },
     passwordCheckIconClass() {
-      return this.showPass ? 'ri-eye-line' : 'ri-eye-off-line'
+      return this.showCheckPass ? 'ri-eye-line' : 'ri-eye-off-line'
     },
   },
   methods: {
