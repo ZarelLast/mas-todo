@@ -1,49 +1,27 @@
 <template>
   <div class="flex items-center w-screen md:w-1/3 md:mx-auto h-screen">
-    <div class="flex flex-col gap-y-6 w-full h-auto border py-14 px-6 shadow-md shadow-[#F0F3FF]">
+    <div class="flex flex-col gap-y-6 w-full h-auto border py-[52px] px-6 rounded-[18px] shadow-md shadow-[#F0F3FF]">
       <div class="flex-1">
         <img :src="logo" class="w-36" />
       </div>
-      <div class="flex-1">
-        <h1 class="font-semibold text-lg">Masuk</h1>
-        <p>Masukan informasi login anda untuk mengakses aplikasi</p>
+      <div class="flex-1 flex flex-col gap-1">
+        <h1 class="font-Semibold text-Sub-Title-1">Masuk</h1>
+        <p class="font-Reguler text-Body-3">Masukan informasi login anda untuk mengakses aplikasi</p>
       </div>
       <div class="flex-1">
         <form action="" @submit.prevent="login">
           <div class="flex flex-col gap-y-3">
-            <div class="flex-1 flex flex-col gap-[5px]">
-              <label for="email" class="block text-Body-2 font-Medium text-Text-500 ">Email</label>
-              <div class="relative flex items-center text-gray-400 focus-within:text-brand-normal">
-                <div class="absolute ml-3 left-0">
-                  <i class="ri-mail-line w-5 h-5" />
-                </div>
-                <input v-model="formData.email" type="email" id="email"
-                  class="pl-10 bg-gray-50 border border-gray-300 text-Text-500 text-Body-2 font-Medium rounded-lg focus:outline-brand-normal  focus:ring-brand-normal block w-full p-2.5"
-                  :class="{'border-W-500':formData.email == ''}"
-                  placeholder="Masukan email..." required>
-              </div>
-            </div>
-            <div class="flex-1">
-              <label for="password" class="block mb-2 text-sm font-medium text-gray-900 ">Password</label>
-              <div class="relative flex items-center text-gray-400 focus-within:text-blue-500">
-                <div class="absolute left-0 ml-3">
-                  <i class="ri-lock-line w-5 h-5" />
-                </div>
-                <input v-model="formData.password" :type="passwordFieldType" id="password"
-                  class="bg-gray-50 border border-gray-300 px-10 text-gray-900 text-sm rounded-lg focus-within:ring-blue-500 focus-within:outline-blue-500 block w-full p-2.5"
-                  placeholder="Masukan password..." required>
-                <div class="absolute right-0 mr-3" @click="togglePass">
-                  <i class="ri-eye-line w-5 h-5" :class="{ 'ri-eye-line': showPass, 'ri-eye-off-line': !showPass }" />
-                  <!-- <i class="ri-eye-line w-5 h-5" :class="{showPass ? 'ri-eye-line':'ri-eye-off-line'}" /> -->
-                </div>
-              </div>
-            </div>
+            <FormInput v-model="formData.email" id="email" label="Email" type="email" placeholder="Masukan email..."
+              leftIcon="ri-mail-line" />
+            <FormInput v-model="formData.password" id="password" label="Password" :type="passwordFieldType"
+              placeholder="Masukan password..." leftIcon="ri-lock-line" :rightIcon="'ri-eye-line'"
+              :rightIconClick="togglePass" />
             <ButtonPrimary :type="'submit'">
               Masuk
             </ButtonPrimary>
             <div class="flex items-center justify-center">
               <div class="border-t border-gray-300 flex-grow"></div>
-              <span class="mx-4">Belum Punya Akun?</span>
+              <span class="mx-4 font-Medium text-Body-3">Belum Punya Akun?</span>
               <div class="border-t border-gray-300 flex-grow"></div>
             </div>
             <ButtonSecondary @click="$router.push('/register')">
@@ -84,10 +62,10 @@ export default {
       this.authStore.login(this.formData)
     }
   },
-  computed:{
-    passwordFieldType(){
-      return this.showPass ? 'text' : 'password'
-    }
+  computed: {
+    passwordFieldType() {
+      return this.showPass ? 'password' : 'text'
+    },
   }
 }
 

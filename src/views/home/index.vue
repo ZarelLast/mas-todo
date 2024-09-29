@@ -1,8 +1,6 @@
 <template>
   <!-- Modal -->
   <Modal />
-
-  <!-- {{ console.log(projectStore.projects) }} -->
   <!-- no project -->
   <div v-if="!projectStore.projects.length"
     class="flex-1 flex items-center shadow shadow-{#F0F3FF} h-screen text-center align-middle">
@@ -22,13 +20,13 @@
   <div v-else class="flex flex-col gap-4">
     <!-- title -->
     <div class="flex-1 flex flex-row justify-between pt-6">
-      <h1 class="font-bold text-2xl">Project</h1>
+      <h1 class="font-Bold text-Sub-Title-2">Project</h1>
       <ButtonPrimary @click="modalProject">
         + Buat project baru
       </ButtonPrimary>
     </div>
 
-    <div class="flex-1 flex flex-row gap-2">
+    <div class="flex-1 flex flex-row gap-3">
       <!-- <ButtonMinimal :intent="{'active':projectStore.completed, 'disabled':!projectStore.completed}" @click="projectStore.completed=false"> -->
       <ButtonMinimal :intent="projectStore.completed ? 'disabled' : 'active'" @click="projectStore.completed = false">
         Semua
@@ -45,7 +43,7 @@
         class="flex flex-col flex-wrap gap-4 py-4 border shadow shadow-[#63636333]/20 rounded-3xl">
         <!-- title -->
         <div class="flex flex-col gap-2 px-4">
-          <h2>{{ project.name }}</h2>
+          <h2 class="font-Body-1 text-Bold">{{ project.name }}</h2>
           <div class="w-full bg-gray-200 rounded-full h-2.5">
             <!-- <div class="bg-blue-600 h-2.5 rounded-full" :style="'width:'+(parseFloat(project.completed)/(parseFloat(project.completed) + parseFloat(project.incompleted)))*100+'%'"></div> -->
             <div class="bg-blue-600 h-2.5 rounded-full" :style="'width:' + projectStore.getProgress(project.id) + '%'">
@@ -122,7 +120,7 @@
 <script>
 import { useProjectStore } from '@/stores/project.store';
 import { useTodoStore } from '@/stores/todo.store';
-import { useModalStore } from '../../stores/modal.store';
+import { useModalStore } from '@/stores/modal.store';
 import img1 from '@/assets/noproject.svg'
 
 export default {
@@ -148,10 +146,10 @@ export default {
       this.projectStore.add({ name: val })
     },
     modalProject() {
-      this.modalStore.setModal('Tambah project baru', 'Nama nama project', 'Masukan nama project', this.projectSubmit);
+      this.modalStore.setModal('Tambah project baru', 'Nama project', 'Masukan nama project', this.projectSubmit);
     },
     checkboxUpdate(projectId, todoId) {
-      this.projectStore.updateCheckbox(projectId, todoId)
+      this.projectStore.updateChecklist(projectId, todoId)
       const formData = this.projectStore.getTodo(projectId, todoId)
       this.todoStore.update(todoId, formData)
     },

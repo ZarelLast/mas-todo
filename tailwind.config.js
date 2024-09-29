@@ -20,10 +20,34 @@ module.exports = {
                 'Heading-2': ['32px', '38.4px'],
                 'Title-1': ['26px', '31.2px'],
                 'Title-2': ['20px', '24px'],
-                'Body-1': ['16px', '19.2px'],
-                'Body-2': ['13px', '15.6px'],
-                'Body-3': ['10px', '12px'],
-                'Body-4': ['8px', '9.6px']
+                'Sub-Title-1': ['28px', {
+                    lineHeight: '28px',
+                    letterSpacing: '-0.6px'
+                }],
+                'Sub-Title-2': ['24px', {
+                    lineHeight: '24px',
+                    letterSpacing: '-0.2px'
+                }],
+                'Sub-Title-3': ['21px',{
+                    lineHeight: '21px',
+                    letterSpacing: '-0.4px'
+                }],
+                'Body-1': ['18px',{
+                    lineHeight: '21.6px',
+                    letterSpacing: '-0.4px'
+                }],
+                'Body-2': ['16px', {
+                    lineHeight: '22.4px',
+                    letterSpacing: '-0.3px'
+                }],
+                'Body-3': ['14px', {
+                    lineHeight: '22.4px',
+                    letterSpacing: '-0.3px'
+                }],
+                'Body-4': ['12px',{
+                    lineHeight: '19.2px',
+                    letterSpacing: '-0.2px'
+                }]
             },
             fontWeight: {
                 Reguler: 400,
@@ -45,12 +69,12 @@ module.exports = {
                     darker: '#002c58'
                 },
                 base: {
-                    dark: '#131313',
-                    black: '#303030',
-                    grey: '#CCCCCC',
-                    section: '#F0F3FF',
-                    light: '#F9FBFE',
-                    white: '#FFFFFF'
+                    BackgroudDark: '#131313',
+                    Black: '#303030',
+                    Grey: '#CCCCCC',
+                    Section: '#F0F3FF',
+                    BackgroundLight: '#F9FBFE',
+                    White: '#FFFFFF'
                 },
                 border: {
                     light: '#EFEFEF',

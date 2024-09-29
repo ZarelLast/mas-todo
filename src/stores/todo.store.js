@@ -10,21 +10,7 @@ export const useTodoStore = defineStore({
     todo: null
   }),
   actions: {
-    // get by projectid
-    // error 500
-    // async get(id) {
-    //   console.log(id)
-    //   const todos = await axiosWrapper.get(`${baseUrl}/todo/${id}`)
-    //   this.todos = todos.data
-    //   return todos
-    // },
-
-    // get dari project store
-    // get(data){
-    //   this.todos =
-    // }
-
-    // bug reload ilang
+    
     async add(data) {
       const todo = await axiosWrapper.post(`${baseUrl}/todo`, data, true)
       this.todo = todo.data

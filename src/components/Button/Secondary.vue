@@ -18,7 +18,7 @@ export default {
   },
   computed:{
     buttonClass(){
-      const baseClasses = 'border-2 p-2 rounded-md hover:text-blue-500 hover:border-blue-500'
+      const baseClasses = 'border py-5 py-4 font-Semibold text-Body-3 rounded-2xl hover:text-blue-500 hover:border-blue-500'
       const variantClasses = {
         primary: 'border-blue-400 text-blue-400',
         active: 'border-blue-400 text-blue-400',

@@ -11,69 +11,19 @@
       <div class="flex-1">
         <form action="" @submit.prevent="register">
           <div class="flex flex-col gap-y-3">
-            <div class="flex-1">
-              <label for="email" class="block mb-2 text-sm font-medium text-gray-900 ">Email address</label>
-              <div class="relative flex items-center text-gray-400 focus-within:text-blue-500">
-                <div class="absolute ml-3 left-0">
-                  <i class="ri-mail-line w-5 h-5" />
-                </div>
-                <input v-model="formData.email" type="email" id="email"
-                  class="pl-10 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-blue-500  focus:ring-blue-500 block w-full p-2.5"
-                  placeholder="Masukan email..." required>
-              </div>
-            </div>
-            <div class="flex-1">
-              <label for="name" class="block mb-2 text-sm font-medium text-gray-900 ">Nama</label>
-              <div class="relative flex items-center text-gray-400 focus-within:text-blue-500">
-                <div class="absolute left-0 ml-3">
-                  <i class="ri-user-line w-5 h-5" />
-                </div>
-                <input v-model="formData.name" type="name" id="name"
-                  class="pl-10 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:outline-blue-500 block w-full p-2.5"
-                  placeholder="Masukan nama..." required>
-              </div>
-            </div>
-            <div class="flex-1">
-              <label for="phone_number" class="block mb-2 text-sm font-medium text-gray-900 ">Nomor telepon</label>
-              <div class="relative flex items-center text-gray-400 focus-within:text-blue-500">
-                <div class="absolute left-0 ml-3">
-                  <i class="ri-phone-line w-5 h-5" />
-                </div>
-                <input v-model="formData.phone_number" type="text" id="phone_number"
-                  class="pl-10 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:outline-blue-500 block w-full p-2.5"
-                  placeholder="Masukan nomor telepon..." required>
-              </div>
-            </div>
-            <div class="flex-1">
-              <label for="password" class="block mb-2 text-sm font-medium text-gray-900 ">Password</label>
-              <div class="relative flex items-center text-gray-400 focus-within:text-blue-500">
-                <div class="absolute left-0 ml-3">
-                  <i class="ri-lock-line w-5 h-5" />
-                </div>
-                <input v-model="formData.password" :type="passwordFieldType" id="password"
-                  class="px-10 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:outline-blue-500 block w-full p-2.5"
-                  placeholder="Masukan password..." required>
-                <div class="absolute right-0 mr-3" @click="togglePass">
-                  <i class="ri-eye-line w-5 h-5" :class="{ 'ri-eye-line': showPass, 'ri-eye-off-line': !showPass }" />
-                </div>
-              </div>
-            </div>
-            <div class="flex-1">
-              <label for="passwordCheck" class="block mb-2 text-sm font-medium text-gray-900 ">Masukan ulang
-                password</label>
-              <div class="relative flex items-center text-gray-400 focus-within:text-blue-500" :class="{'text-red-500': formData.password !== checkPass}">
-                <div class="absolute left-0 ml-3">
-                  <i class="ri-lock-line w-5 h-5" />
-                </div>
-                <input v-model="checkPass" :type="passwordCheckFieldType" id="passwordCheck"
-                  class="px-10 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus-within:ring-blue-500 focus-within:outline-blue-500 block w-full p-2.5 "
-                  :class="{'border-red-500': formData.password !== checkPass}" placeholder="Masukan ulang password..." required>
-                <div class="absolute right-0 mr-3" @click="toggleCheckPass">
-                  <i class="ri-eye-line w-5 h-5"
-                    :class="{ 'ri-eye-line': showCheckPass, 'ri-eye-off-line': !showCheckPass }" />
-                </div>
-              </div>
-            </div>
+            <FormInput v-model="formData.email" id="email" label="Email" type="email" placeholder="Masukan email..."
+              leftIcon="ri-mail-line" />
+            <FormInput v-model="formData.name" id="name" label="Name" type="text" placeholder="Masukan nama..."
+              leftIcon="ri-user-line" />
+            <FormInput v-model="formData.phone_number" id="phone_number" label="Nomor telepon" type="text"
+              placeholder="Masukan nomor telepon..." leftIcon="ri-phone-line" />
+            <FormInput v-model="formData.password" id="password" label="Password" :type="passwordFieldType"
+              placeholder="Masukan password..." leftIcon="ri-lock-line" :rightIcon="'ri-eye-line'"
+              :rightIconClick="togglePass" />
+            <FormInput v-model="checkPass" id="passwordCheck" label="Masukan ulang password"
+              :type="passwordCheckFieldType" placeholder="Masukan ulang password" leftIcon="ri-lock-line"
+              :rightIcon="'ri-eye-line'" :rightIconClick="toggleCheckPass"
+              :class="[passwordsMatch ? 'border-border-hover' : '!border-W-500 text-W-500']" />
             <ButtonPrimary :type="'submit'">
               Daftar
             </ButtonPrimary>
@@ -123,6 +73,9 @@ export default {
     passwordCheckFieldType() {
       return this.showCheckPass ? 'text' : 'password'
     },
+    passwordsMatch() {
+      return this.checkPass === this.formData.password
+    }
   },
   methods: {
     togglePass() {

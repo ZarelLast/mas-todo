@@ -11,17 +11,23 @@ export const useModalStore = defineStore({
     type: '',
     inputVal: '',
     errorMessage: '',
-    errorStatus: false
+    errorStatus: false,
+    submitMessage: ''
   }),
   actions: {
-    setModal(title = 'No title', label = 'Label', placeholder = 'placeholder', method = console.log('halo'), type = 'text', defaultInput = '') {
+//     modal tidak boleh stateManagement, harus pake emit
+// component benerin
+// styling sesuaikan dengan tampilan figma web
+// @crsf belum
+    setModal(title = 'No title', label = 'Label', placeholder = 'placeholder', method = console.log('halo'), type = 'text', defaultInput = '', submitMessage='Tambahkan') {
       this.title = title
       this.label = label
       this.placeholder = placeholder
       this.isOpen = !this.isOpen
       this.onSubmit = method
       this.type = type
-      this.defaultInput = defaultInput
+      this.inputVal = defaultInput
+      this.submitMessage = submitMessage
     },
     closeModal() {
       this.isOpen = false

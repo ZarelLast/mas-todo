@@ -22,10 +22,10 @@
       </div>
 
       <div class="flex flex-row gap-2">
-        <ButtonMinimal @click="$router.push('/project/todo'), pageNow=0" :intent="pageNow ? 'disabled': 'active'">
+        <ButtonMinimal @click="$router.push('/project/todo'), pageNow = 0" :intent="pageNow ? 'disabled' : 'active'">
           To-do list
         </ButtonMinimal>
-        <ButtonMinimal @click="$router.push('/project/team'), pageNow=1" :intent="pageNow ? 'active': 'disabled'">
+        <ButtonMinimal @click="$router.push('/project/team'), pageNow = 1" :intent="pageNow ? 'active' : 'disabled'">
           Personil
         </ButtonMinimal>
       </div>
@@ -60,10 +60,10 @@ export default {
     this.teamStore.get(this.projectStore.project.id)
     this.todoStore.projectId = this.projectStore.project.id
   },
-  computed(){
-    this.projectStore.fetch(),
-    this.projectStore.setProject(this.projectStore.project.id),
-    this.todoStore.todos = this.projectStore.project.todo
+  computed: {
+    // this.projectStore.fetch(),
+    // this.projectStore.setProject(this.projectStore.project.id),
+    // this.todoStore.todos = this.projectStore.project.todo
   },
   methods: {
     toHome() {
@@ -73,20 +73,8 @@ export default {
       this.todoStore.add({ project_id: this.projectStore.project.id, description: val })
       setError()
     },
-    todoUpdate(val, setError) {
-      this.todoStore.update(this.todoStore.todo.id, val)
-      setError()
-    },
     modalTodo() {
       this.modalStore.setModal('Tambah to-do baru', 'Nama list', 'Masukan nama', this.todoSubmit)
-    },
-    updateTodo(data, setError) {
-      this.todoStore.todo = data
-      this.modalStore.setModal('Edit to-do', 'Nama list', 'Masukan nama', this.todoUpdate)
-      setError()
-    },
-    delTodo(id) {
-      this.todoStore.delete(id)
     },
     teamSubmit(val, setError) {
       const res = this.teamStore.add({ project_id: this.projectStore.project.id, email: val })

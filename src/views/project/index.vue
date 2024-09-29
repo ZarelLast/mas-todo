@@ -3,9 +3,10 @@
     <ul class="flex flex-col border-[#F9FBFE] divide-y-2">
       <li v-for="(todo, index) in fetchTodos" class="py-1.5 shrink-0 flex flex-row items-center">
         <div class="py-4 px-5">
-          <input type="checkbox" @click="checkboxUpdate(projectStore.project.id, todo.id)" :checked="todo.is_complete">
+          <input type="checkbox" :checked="todo.is_complete" @click="checkboxUpdate(projectStore.project.id, todo.id)">
         </div>
-        <div class="py-4 px-5 flex-1 font-bold" :class="{ 'line-through': todo.is_complete }">{{ todo.description }}
+        <div class="py-4 px-5 flex-1 font-bold" :class="{ 'line-through': todo.is_complete }">
+          {{ todo.description }}
         </div>
         <div class="py-4 px-5 flex-1">Created by {{ todo.created_by }}</div>
         <div class="py-4 px-5 flex-1">Created at {{ formatDate(todo.created_at) }}</div>
@@ -28,12 +29,14 @@
 <script>
 import { useProjectStore } from '@/stores/project.store';
 import { useTodoStore } from '@/stores/todo.store';
+import { useModalStore } from '@/stores/modal.store'
 
 export default {
   data() {
     return {
       projectStore: useProjectStore(),
       todoStore: useTodoStore(),
+      modalStore: useModalStore()
     }
   },
   computed: {
@@ -58,9 +61,25 @@ export default {
       return formattedDate.replace(',', '').replace(':', '.');
     },
     checkboxUpdate(projectId, todoId) {
-      this.projectStore.updateCheckbox(projectId, todoId)
+      this.projectStore.updateChecklist(projectId, todoId)
       const formData = this.projectStore.getTodo(projectId, todoId)
       this.todoStore.update(todoId, formData)
+    },
+    todoUpdate(desc, setError) {
+      this.projectStore.renameChecklist(this.projectStore.project.id, this.todoStore.todo.id, desc)
+      const formData = this.projectStore.getTodo(this.projectStore.project.id, this.todoStore.todo.id)
+      // this.todoStore.update(this.todoStore.todo.id, val)
+      // console.log('updated value:', val)
+      // console.log('updated message:', this.modalStore.submitMessage)
+      this.todoStore.update(this.todoStore.todo.id, formData)
+      setError()
+    },
+    updateTodo(data) {
+      this.todoStore.todo = data
+      this.modalStore.setModal('Ubah deskripsi', 'Deskripsi to-do', 'Masukan deskripsi', this.todoUpdate, 'text', data.description, 'Ubah')
+    },
+    delTodo(id) {
+      this.todoStore.delete(id)
     },
   }
 }

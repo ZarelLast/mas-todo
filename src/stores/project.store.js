@@ -48,9 +48,9 @@ export const useProjectStore = defineStore({
     paginatedProjects() {
       const start = (this.currentPage - 1) * this.limitShow;
       let data = []
-      if(this.completed){
-        data = this.projects.filter(project => project.incompleted == 0 && project.completed > project.incompleted )
-      }else{
+      if (this.completed) {
+        data = this.projects.filter(project => project.incompleted == 0 && project.completed > project.incompleted)
+      } else {
         data = this.projects
       }
       return data.slice(start, start + this.limitShow);
@@ -78,18 +78,24 @@ export const useProjectStore = defineStore({
       const index = this.projects.findIndex(project => project.id == id)
       this.project = this.projects[index]
     },
-
+    
+    getProject(projectId) {
+      const index = this.projects.findIndex(project => project.id == projectId)
+      return this.projects[index].todo
+    },
+    
     // updateCheckbox(projectId, idCheckbox, status){
-    updateCheckbox(projectId, idCheckbox) {
-      const indexProject = this.projects.findIndex(project => project.id == projectId)
-      const indexItem = this.projects[indexProject].todo.findIndex(item => item.id == idCheckbox)
-      this.projects[indexProject].todo[indexItem].is_complete = !this.projects[indexProject].todo[indexItem].is_complete
+    updateChecklist(projectId, todoId) {
+      const todos = this.getProject(projectId)
+      const index = todos.findIndex(item => item.id == todoId)
+      todos[index].is_complete = !todos[index].is_complete
       this.updateProgress(projectId)
     },
 
-    getProject(projectId) {
-      const indexProject = this.projects.findIndex(project => project.id == projectId)
-      return this.projects[indexProject].todo
+    renameChecklist(projectId, todoId, desc) {
+      const todos = this.getProject(projectId)
+      const index = todos.findIndex(item => item.id == todoId)
+      todos[index].description = desc
     },
 
     getTodo(projectId, todoId) {

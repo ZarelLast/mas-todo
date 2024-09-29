@@ -18,11 +18,11 @@ export default {
   },
   computed:{
     buttonClass(){
-      const baseClasses = 'border-2 p-2 rounded-md hover:bg-blue-50 hover:border-blue-50'
+      const baseClasses = 'border py-3.5 px-8 text-Body-3 font-Semibold rounded-xl hover:bg-brand-lightHover hover:border-brand-lightHover hover:text-brand-normal'
       const variantClasses = {
-        primary: 'border-white bg-white text-blue-500',
-        active: 'border-blue-100 bg-blue-100 text-blue-500',
-        disabled: 'border-white bg-white text-grey',
+        primary: 'border-brand-light bg-brand-light text-brand-normal',
+        active: 'border-brand-lightActive bg-brand-lightActive text-brand-normal',
+        disabled: 'border-base-BackgroundLight bg-base-BackgroundLight text-Text-300',
       }
       return `${baseClasses} ${variantClasses[this.intent]}`
     }

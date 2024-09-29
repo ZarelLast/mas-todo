@@ -27,7 +27,7 @@ export const useTeamStore = defineStore({
 
     async deleteAlert(projectId, swal, toHome) {
       swal.fire({
-        title: "Keluar dari Project Jenjang.id?",
+        title: `Keluar dari Project ${projectId}`,
         text: "Apa anda yakin ingin keluar dari project ini?",
         iconHtml: `<div class="rounded-full px-4 py-1 border-4 border-Text-100"><i class="ri-logout-box-r-line text-Text-100" /></div>`,
         imageWidth: 400,

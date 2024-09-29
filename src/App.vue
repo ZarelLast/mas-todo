@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="bg-base-BackgroundLight">
     <component :is="layout">
       <RouterView />
     </component>
