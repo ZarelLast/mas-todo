@@ -57,9 +57,9 @@ export default {
       const baseClass = 'bg-gray-50 border border-gray-300 rounded-2xl w-full py-4'
       const textClass = 'text-Text-500 text-Body-3 font-Reguler'
       const focusClass  = 'focus:outline-brand-normal focus:ring-brand-normal focus:text-Text-500 block'
-      const paddingClass = this.leftIcon ? 'px-11' : 'px-5'
+      const iconClass = this.leftIcon ? 'px-11' : 'px-5'
       // const borderClass = this.modelValue === '' ? 'border-W-500' : 'border-border-hover';
-      return `${baseClass} ${textClass} ${paddingClass} ${focusClass}`
+      return `${baseClass} ${textClass} ${iconClass} ${focusClass}`
     }
   }
 }

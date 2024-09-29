@@ -14,9 +14,9 @@
             <FormInput v-model="formData.email" id="email" label="Email" type="email" placeholder="Masukan email..."
               leftIcon="ri-mail-line" />
             <FormInput v-model="formData.password" id="password" label="Password" :type="passwordFieldType"
-              placeholder="Masukan password..." leftIcon="ri-lock-line" :rightIcon="'ri-eye-line'"
+              placeholder="Masukan password..." leftIcon="ri-lock-line" :rightIcon="passwordIconClass"
               :rightIconClick="togglePass" />
-            <ButtonPrimary :type="'submit'">
+            <ButtonPrimary intent="auth" :type="'submit'">
               Masuk
             </ButtonPrimary>
             <div class="flex items-center justify-center">
@@ -24,7 +24,7 @@
               <span class="mx-4 font-Medium text-Body-3">Belum Punya Akun?</span>
               <div class="border-t border-gray-300 flex-grow"></div>
             </div>
-            <ButtonSecondary @click="$router.push('/register')">
+            <ButtonSecondary intent="auth" @click="$router.push('/register')">
               Daftar
             </ButtonSecondary>
           </div>
@@ -64,7 +64,10 @@ export default {
   },
   computed: {
     passwordFieldType() {
-      return this.showPass ? 'password' : 'text'
+      return this.showPass ? 'text' : 'password'
+    },
+    passwordIconClass() {
+      return this.showPass ? 'ri-eye-line' : 'ri-eye-off-line'
     },
   }
 }

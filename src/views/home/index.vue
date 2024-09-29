@@ -27,7 +27,6 @@
     </div>
 
     <div class="flex-1 flex flex-row gap-3">
-      <!-- <ButtonMinimal :intent="{'active':projectStore.completed, 'disabled':!projectStore.completed}" @click="projectStore.completed=false"> -->
       <ButtonMinimal :intent="projectStore.completed ? 'disabled' : 'active'" @click="projectStore.completed = false">
         Semua
       </ButtonMinimal>
@@ -39,7 +38,7 @@
     <!-- container -->
     <div class="flex-1 grid grid-flow-row grid-cols-1 md:grid-cols-3 gap-3">
       <!-- card -->
-      <div v-for="(project, index) in fetchProject"
+      <div :id="project.id + index" v-for="(project, index) in fetchProject"
         class="flex flex-col flex-wrap gap-4 py-4 border shadow shadow-[#63636333]/20 rounded-3xl">
         <!-- title -->
         <div class="flex flex-col gap-2 px-4">
@@ -75,7 +74,7 @@
           </ul>
         </div>
         <div class="shrink-0 flex px-4">
-          <ButtonPrimary @click="toProjectDetails(project.id)" class="flex-1 rounded-3xl">Lihat semua</ButtonPrimary>
+          <ButtonPrimary @click="toProjectDetails(project.id)" intent="details">Lihat semua</ButtonPrimary>
         </div>
       </div>
     </div>

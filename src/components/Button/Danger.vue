@@ -18,13 +18,15 @@ export default {
   },
   computed: {
     buttonClass(){
-      const baseClasses = 'border-2 p-2 rounded-md text-white hover:bg-W-600 hover:border-W-600'
-      const variantClasses = {
+      const baseClass = 'py-3.5 px-8 rounded-2xl'
+      const textClass = 'font-Semibold text-Body-3 text-base-White'
+      const hoverClass= 'hover:bg-W-600 hover:border-W-600'
+      const variantClass = {
         primary: 'border-W-500 bg-W-500',
         active: 'border-W-700 bg-W-700',
         disabled: 'border-Text-300 bg-Text-300'
       }
-      return `${baseClasses} ${variantClasses[this.intent]}`
+      return `${baseClass} ${textClass} ${hoverClass} ${variantClass[this.intent]}`
     }
   }
 }

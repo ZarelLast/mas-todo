@@ -18,13 +18,15 @@ export default {
   },
   computed:{
     buttonClass(){
-      const baseClasses = 'border py-3.5 px-8 text-Body-3 font-Semibold rounded-xl hover:bg-brand-lightHover hover:border-brand-lightHover hover:text-brand-normal'
-      const variantClasses = {
+      const baseClass = 'border py-3.5 px-8 rounded-2xl'
+      const textClass = 'text-Body-3 font-Semibold'
+      const hoverClass = 'hover:bg-brand-lightHover hover:border-brand-lightHover hover:text-brand-normal'
+      const variantClass = {
         primary: 'border-brand-light bg-brand-light text-brand-normal',
         active: 'border-brand-lightActive bg-brand-lightActive text-brand-normal',
         disabled: 'border-base-BackgroundLight bg-base-BackgroundLight text-Text-300',
       }
-      return `${baseClasses} ${variantClasses[this.intent]}`
+      return `${baseClass} ${textClass} ${hoverClass} ${variantClass[this.intent]}`
     }
   }
 }

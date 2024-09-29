@@ -1,6 +1,6 @@
 <template>
   <div class="flex items-center w-screen md:w-1/3 md:mx-auto h-screen">
-    <div class="flex flex-col gap-y-6 w-full h-auto border py-16 px-6 shadow-md shadow-[#F0F3FF]">
+    <div class="flex flex-col gap-y-6 w-full h-auto border py-[52px] px-6 rounded-[18px] shadow-md shadow-[#F0F3FF]">
       <div class="flex-1">
         <img :src="logo" class="w-36" />
       </div>
@@ -18,13 +18,13 @@
             <FormInput v-model="formData.phone_number" id="phone_number" label="Nomor telepon" type="text"
               placeholder="Masukan nomor telepon..." leftIcon="ri-phone-line" />
             <FormInput v-model="formData.password" id="password" label="Password" :type="passwordFieldType"
-              placeholder="Masukan password..." leftIcon="ri-lock-line" :rightIcon="'ri-eye-line'"
+              placeholder="Masukan password..." leftIcon="ri-lock-line" :rightIcon="passwordIconClass"
               :rightIconClick="togglePass" />
             <FormInput v-model="checkPass" id="passwordCheck" label="Masukan ulang password"
               :type="passwordCheckFieldType" placeholder="Masukan ulang password" leftIcon="ri-lock-line"
-              :rightIcon="'ri-eye-line'" :rightIconClick="toggleCheckPass"
+              :rightIcon="passwordCheckIconClass" :rightIconClick="toggleCheckPass"
               :class="[passwordsMatch ? 'border-border-hover' : '!border-W-500 text-W-500']" />
-            <ButtonPrimary :type="'submit'">
+            <ButtonPrimary intent="auth" :type="'submit'">
               Daftar
             </ButtonPrimary>
             <div class="flex items-center justify-center">
@@ -32,7 +32,7 @@
               <span class="mx-4">Sudah punya akun?</span>
               <div class="border-t border-gray-300 flex-grow"></div>
             </div>
-            <ButtonSecondary @click="$router.push('/login')" class="">
+            <ButtonSecondary intent="auth" @click="$router.push('/login')">
               Masuk
             </ButtonSecondary>
           </div>
@@ -70,12 +70,18 @@ export default {
     passwordFieldType() {
       return this.showPass ? 'text' : 'password'
     },
+    passwordIconClass() {
+      return this.showPass ? 'ri-eye-line' : 'ri-eye-off-line'
+    },
     passwordCheckFieldType() {
       return this.showCheckPass ? 'text' : 'password'
     },
     passwordsMatch() {
       return this.checkPass === this.formData.password
-    }
+    },
+    passwordCheckIconClass() {
+      return this.showPass ? 'ri-eye-line' : 'ri-eye-off-line'
+    },
   },
   methods: {
     togglePass() {
