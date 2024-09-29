@@ -1,17 +1,17 @@
 <template>
+  <Modal />
   <div class="flex flex-col gap-2 p-5 h-screen">
-    <Modal />
     <NavbarMain />
-    <div class="flex-1 flex flex-col gap-2 px-4">
+    <div class="flex flex-col gap-4">
       <!-- secondary -->
-      <div class="shrink-0 flex flex-row justify-between">
+      <div class="flex-1 flex flex-row justify-between pt-6">
         <!-- title -->
         <div class="flex flex-col">
           <div class="text-sm" @click="toHome">
             <i class="ri-arrow-left-s-line" />
             <span>kembali</span>
           </div>
-          <h1 class="font-extrabold text-xl">{{ projectStore.project.name }}</h1>
+          <h1 class="font-Bold text-Sub-Title-2">{{ projectStore.project.name }}</h1>
         </div>
         <!-- button action -->
         <div class="flex flex-row gap-2">
@@ -21,11 +21,11 @@
         </div>
       </div>
 
-      <div class="flex flex-row gap-2">
-        <ButtonMinimal @click="$router.push('/project/todo'), pageNow = 0" :intent="pageNow ? 'disabled' : 'active'">
+      <div class="flex-1 flex flex-row gap-3">
+        <ButtonMinimal :intent="pageNow ? 'disabled' : 'active'" @click="$router.push('/project/todo'), pageNow = 0">
           To-do list
         </ButtonMinimal>
-        <ButtonMinimal @click="$router.push('/project/team'), pageNow = 1" :intent="pageNow ? 'active' : 'disabled'">
+        <ButtonMinimal :intent="pageNow ? 'active' : 'disabled'" @click="$router.push('/project/team'), pageNow = 1">
           Personil
         </ButtonMinimal>
       </div>
@@ -42,7 +42,6 @@ import { useProjectStore } from '@/stores/project.store';
 import { useTodoStore } from '@/stores/todo.store';
 import { useTeamStore } from '@/stores/team.store';
 import { useModalStore } from '@/stores/modal.store';
-import router from '@/router/index.js'
 
 export default {
   name: 'DetailsLayout',
@@ -57,8 +56,15 @@ export default {
     }
   },
   beforeMount() {
-    this.teamStore.get(this.projectStore.project.id)
-    this.todoStore.projectId = this.projectStore.project.id
+    if (this.projectStore.project === null) {
+      this.toHome()
+    } else {
+      this.teamStore.get(this.projectStore.project.id)
+      this.todoStore.projectId = this.projectStore.project.id
+    }
+  },
+  mounted() {
+
   },
   computed: {
     // this.projectStore.fetch(),
@@ -67,7 +73,7 @@ export default {
   },
   methods: {
     toHome() {
-      router.push('/')
+      this.$router.push({ path: '/' }).then(() => this.$router.go(0))
     },
     todoSubmit(val, setError) {
       this.todoStore.add({ project_id: this.projectStore.project.id, description: val })
@@ -98,8 +104,8 @@ export default {
       this.modalStore.setModal('Undang personil baru', 'Email', 'Masukan email', this.teamSubmit, 'email')
     },
     leaveProject() {
-      this.teamStore.deleteAlert(this.projectStore.project.id, this.$swal, this.toHome)
+      this.teamStore.deleteAlert(this.projectStore.project.name, this.projectStore.project.id, this.$swal, this.toHome)
     }
-  }
+  },
 };
 </script>

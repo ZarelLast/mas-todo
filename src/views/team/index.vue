@@ -1,7 +1,7 @@
 <template>
   <div class="border rounded-3xl">
     <ul class="flex flex-col border-[#F9FBFE] divide-y-2">
-      <li class="py-1.5 shrink-0 flex flex-row items-center font-bold bg-base-section rounded-t-3xl">
+      <li class="py-1.5 shrink-0 flex flex-row items-center font-bold bg-base-Section rounded-t-3xl">
         <div class="py-4 px-5">
           #
         </div>

@@ -8,7 +8,7 @@
           <i class="ri-close-line" />
         </button>
       </div>
-      <form class="space-y-6" action="" @submit.prevent="modalStore.submitData">
+      <form :id="modalStore.label + modalStore.type + 123" class="space-y-6" action="" @submit.prevent="modalStore.submitData">
         <FormInput v-model="modalStore.inputVal" :id="modalStore.label + modalStore.type" :label="modalStore.label"
           :type="modalStore.type" :placeholder="modalStore.placeholder" />
         <ButtonPrimary intent="modalBtn" type="submit">

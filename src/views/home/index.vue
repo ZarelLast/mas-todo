@@ -44,7 +44,6 @@
         <div class="flex flex-col gap-2 px-4">
           <h2 class="font-Body-1 text-Bold">{{ project.name }}</h2>
           <div class="w-full bg-gray-200 rounded-full h-2.5">
-            <!-- <div class="bg-blue-600 h-2.5 rounded-full" :style="'width:'+(parseFloat(project.completed)/(parseFloat(project.completed) + parseFloat(project.incompleted)))*100+'%'"></div> -->
             <div class="bg-blue-600 h-2.5 rounded-full" :style="'width:' + projectStore.getProgress(project.id) + '%'">
             </div>
           </div>
@@ -136,6 +135,7 @@ export default {
   },
   computed: {
     fetchProject() {
+      this.projectStore.fetch()
       return this.projectStore.paginatedProjects()
     }
   },
