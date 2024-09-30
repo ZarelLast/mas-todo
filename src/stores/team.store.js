@@ -29,7 +29,9 @@ export const useTeamStore = defineStore({
       swal.fire({
         title: `Keluar dari Project ${title}`,
         text: "Apa anda yakin ingin keluar dari project ini?",
-        iconHtml: `<div class="rounded-full px-4 py-1 border-4 border-Text-100"><i class="ri-logout-box-r-line text-Text-100" /></div>`,
+        iconHtml: `<div class="rounded-full px-4 py-1 border-4 border-Text-100">
+        <i class="ri-logout-box-r-line text-Text-100" />
+        </div>`,
         imageWidth: 400,
         imageHeight: 200,
         imageAlt: "Custom image",

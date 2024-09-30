@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-row py-3 px-9 justify-between shadow shadow-{#F0F3FF}">
+  <div class="flex flex-row py-3 px-9 rounded-3xl justify-between shadow shadow-{#F0F3FF}">
     <img :src="logo" alt="" srcset="">
     <div class="flex flex-nowrap flex-row items-center py-2 gap-x-3 rounded-3xl">
       <span @click="logout" class="inline-block align-middle">{{ this.userStore.users.name }}</span>

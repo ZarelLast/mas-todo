@@ -57,7 +57,7 @@ export default {
   },
   beforeMount() {
     if (this.projectStore.project === null) {
-      this.toHome()
+      this.toHome().then(() => this.$router.go(0))
     } else {
       this.teamStore.get(this.projectStore.project.id)
       this.todoStore.projectId = this.projectStore.project.id
@@ -73,7 +73,7 @@ export default {
   },
   methods: {
     toHome() {
-      this.$router.push({ path: '/' }).then(() => this.$router.go(0))
+      this.$router.push({ path: '/' })
     },
     todoSubmit(val, setError) {
       this.todoStore.add({ project_id: this.projectStore.project.id, description: val })
