@@ -49,7 +49,8 @@ export const useProjectStore = defineStore({
       const start = (this.currentPage - 1) * this.limitShow;
       let data = []
       if (this.completed) {
-        data = this.projects.filter(project => project.incompleted == 0 && project.completed > project.incompleted)
+        // data = this.projects.filter(project => project.incompleted == 0 && project.completed > project.incompleted)
+        data = this.projects.filter(project => project.incompleted == 0)
       } else {
         data = this.projects
       }
