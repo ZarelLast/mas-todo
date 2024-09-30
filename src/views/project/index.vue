@@ -1,5 +1,5 @@
 <template>
-  <div class="border rounded-md">
+  <div class="border rounded-[10px]">
     <ul class="flex flex-col border-[#F9FBFE] divide-y-2">
       <li v-for="(todo, index) in fetchTodos" class="py-1.5 shrink-0 flex flex-row items-center">
         <div class="py-4 px-5">
